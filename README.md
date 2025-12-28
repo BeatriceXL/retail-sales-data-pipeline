@@ -43,12 +43,16 @@ Dataset: Kaggle Retail Sales Dataset (single CSV).
 ### 1) Start PostgreSQL and create schemas/tables
 ```bash
 docker compose up -d
-docker exec -i retail_postgres psql -U retail -d retail_db < sql/schema.sql
+docker exec -i retail_postgres psql -U retail -d retail_db < sql/schema.sql 
+```
 
 ### 2) Build the clean layer (local)
+```bash
 python scripts/transform.py
+```
 
 ### 3) Load clean CSV into PostgreSQL
+```bash
 docker cp data/clean/clean_retail_sales_dataset.csv retail_postgres:/tmp/clean_retail_sales_dataset.csv
 
 docker exec -it retail_postgres psql -U retail -d retail_db \
@@ -56,12 +60,17 @@ docker exec -it retail_postgres psql -U retail -d retail_db \
 
 docker exec -it retail_postgres psql -U retail -d retail_db \
   -c "SELECT COUNT(*) FROM clean.retail_sales;"
+```
 
 ### 4) Build curated star schema (dimensions + fact)
+```bash
 docker exec -i retail_postgres psql -U retail -d retail_db < sql/build_curated.sql
+```
 
 ### 5)Run analytics queries
+```bash
 docker exec -i retail_postgres psql -U retail -d retail_db < sql/analytics.sql
+```
 
 ## Sample Analytics Included
 - Monthly sales trend
