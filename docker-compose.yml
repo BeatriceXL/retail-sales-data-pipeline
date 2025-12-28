@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: retail_postgres
+    environment:
+      POSTGRES_USER: retail
+      POSTGRES_PASSWORD: retail_pw
+      POSTGRES_DB: retail_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - retail_pgdata:/var/lib/postgresql/data
+
+volumes:
+  retail_pgdata:
